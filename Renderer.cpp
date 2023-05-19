@@ -122,5 +122,8 @@ void Renderer::RenderBoard(SDL_Renderer* renderer)
     }
 }
 
+void DeleteLines(SDL_Renderer* renderer)
+{
 
+}
 

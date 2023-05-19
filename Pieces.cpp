@@ -2,8 +2,9 @@
 
 using namespace std;
 
-char mPieces[7 /*kind */][4 /* rotation */][5 /* horizontal blocks */][5 /* vertical blocks */] =
+char mPieces[8 /*kind */][4 /* rotation */][5 /* horizontal blocks */][5 /* vertical blocks */] =
 {
+    {},
     // O
       {
        {
@@ -282,6 +283,7 @@ int mPiecesInitialPosition[7 /*kind */][4 /* rotation */][2 /* position */] =
 
 const vector<string> pieceAssets = 
 {
+    {},
     {"Data/Pieces/O.png"},
     {"Data/Pieces/I.png"},
     {"Data/Pieces/L.png"},

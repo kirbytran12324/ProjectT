@@ -18,6 +18,7 @@ public:
     void RenderPiece(SDL_Renderer* renderer, int pPiece, int pRotation, const SDL_Point& pPosition);
     SDL_Renderer* createWindow();
     void RenderBoard(SDL_Renderer* renderer);
+    void DeleteLines(SDL_Renderer* renderer);
 private:
     Board* mBoard;
     Pieces* mPieces;

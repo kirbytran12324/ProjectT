@@ -110,10 +110,11 @@ int main()
             lastDropTime = currentTime;
         }
 
+        SDL_RenderClear(renderer);
+        mRenderer.RenderBoard(renderer);
         SDL_Point CurrentPos = { mGame.mPosX, mGame.mPosY };
         mRenderer.RenderPiece(renderer, mGame.mPiece, mGame.mRotation, CurrentPos);
         SDL_RenderPresent(renderer);
-        SDL_RenderClear(renderer);
     }
 
     IMG_Quit();
