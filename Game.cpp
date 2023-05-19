@@ -1,9 +1,8 @@
 #include "Game.h"
 
 
-Game::Game(Board* pBoard, Pieces* pPieces, int pScreenHeight)
+Game::Game(Board* pBoard, Pieces* pPieces)
 {
-	mScreenHeight = pScreenHeight;
 
 	mBoard = pBoard;
 	mPieces = pPieces;

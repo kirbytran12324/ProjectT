@@ -317,7 +317,7 @@ string Pieces::GetBlockTexturePath(int pPiece)
 
 int Pieces::GetBlock(int pPiece, int pRotation, int x, int y)
 {
-    int index = mPieces[pPiece][pRotation][x][y];
+    int index = mPieces[pPiece-1][pRotation][x][y];
 
     return index;
 }

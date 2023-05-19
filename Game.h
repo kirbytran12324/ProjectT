@@ -14,7 +14,7 @@
 class Game
 {
 public:
-    Game(Board* pBoard, Pieces* pPieces, int pScreenHeight);
+    Game(Board* pBoard, Pieces* pPieces);
 
     void CreateNewPiece();
     int mPosX, mPosY;				// Position of the piece that is falling down

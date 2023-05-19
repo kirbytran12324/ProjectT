@@ -9,8 +9,6 @@
 int main()
 {
     
-    int mScreenWidth = 820;
-    int mScreenHeight = 935;
 
     IO mIO;
 
@@ -18,7 +16,7 @@ int main()
 
     Board mBoard(&mPieces, mScreenHeight);
 
-    Game mGame(&mBoard, &mPieces, mScreenHeight);
+    Game mGame(&mBoard, &mPieces);
 
 
     Renderer mRenderer(&mBoard, &mPieces);

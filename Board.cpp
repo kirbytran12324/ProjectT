@@ -1,9 +1,8 @@
 #include "Board.h"
 
 
-Board::Board(Pieces* pPieces, int pScreenHeight)
+Board::Board(Pieces* pPieces)
 {
-	mScreenHeight = pScreenHeight;
 
 	mPieces = pPieces;
 

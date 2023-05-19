@@ -22,7 +22,7 @@ class Board
 {
 public:
 
-    Board(Pieces* pPieces, int pScreenHeight);
+    Board(Pieces* pPieces);
     bool IsFreeBlock(int pX, int pY);
     bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
     void StorePiece(int pX, int pY, int pPiece, int pRotation);
@@ -36,7 +36,6 @@ private:
     int mBoard[BOARD_WIDTH][BOARD_HEIGHT];  // Remove the assignment here
     Pieces* mPieces;
     Stats* mStats;
-    int mScreenHeight;
 
     void InitBoard();
     void DeleteLine(int pY);
