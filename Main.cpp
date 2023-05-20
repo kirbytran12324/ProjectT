@@ -14,18 +14,16 @@ int main()
 
     Pieces mPieces;
 
-    Board mBoard(&mPieces, mScreenHeight);
+    Board mBoard(&mPieces);
 
     Game mGame(&mBoard, &mPieces);
 
 
-    Renderer mRenderer(&mBoard, &mPieces);
+    Renderer renderer(&mBoard, &mPieces);
 
+    SDL_Renderer * mRenderer= renderer.createWindow();
 
     long WAIT_TIME = 500;
-
-
-    unsigned long mTime1 = SDL_GetTicks();
 
     bool quit = false;
 
@@ -50,7 +48,7 @@ int main()
                 if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, (mGame.mRotation + 1) % 4))
                     mGame.mRotation = (mGame.mRotation + 1) % 4;
             }
-            else if (mIO.IsKeyDown(SDL_SCANCODE_SPACE))
+            else if (mIO.WasKeyDown(SDL_SCANCODE_SPACE))
             {
                 while (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation)) { mGame.mPosY++; }
 
@@ -88,7 +86,7 @@ int main()
 
         unsigned long currentTime = SDL_GetTicks();
 
-        if (currentTime - lastDropTime >= WAIT_TIME) 
+        if ((currentTime - lastDropTime) >= WAIT_TIME) 
         {
             if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation)) 
             {
@@ -98,7 +96,8 @@ int main()
             {
                 mBoard.StorePiece(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
                 mBoard.DeletePossibleLines();
-                if (mBoard.IsGameOver()) {
+                if (mBoard.IsGameOver()) 
+                {
                     quit = true;
                 }
                 mGame.CreateNewPiece();
@@ -106,11 +105,11 @@ int main()
             lastDropTime = currentTime;
         }
 
-        SDL_RenderClear(renderer);
-        mRenderer.RenderBoard(renderer);
+        SDL_RenderClear(mRenderer);
+        renderer.RenderBoard(mRenderer);
         SDL_Point CurrentPos = { mGame.mPosX, mGame.mPosY };
-        mRenderer.RenderPiece(renderer, mGame.mPiece, mGame.mRotation, CurrentPos);
-        SDL_RenderPresent(renderer);
+        renderer.RenderPiece(mRenderer, mGame.mPiece, mGame.mRotation, CurrentPos);
+        SDL_RenderPresent(mRenderer);
     }
 
     IMG_Quit();

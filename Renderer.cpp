@@ -7,7 +7,7 @@ Renderer::Renderer(Board* pBoard, Pieces* pPieces)
 {
     mBoard = pBoard;
     mPieces = pPieces;
-    SDL_Renderer * mRenderer = createWindow();
+    mRenderer = createWindow();
 }
 
 SDL_Renderer* Renderer::createWindow()
@@ -23,8 +23,8 @@ SDL_Renderer* Renderer::createWindow()
         printf("Could not create window %s", SDL_GetError());
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == NULL)
+    SDL_Renderer* mRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (mRenderer == NULL)
     {
         printf("Could not create renderer %s", SDL_GetError());
     }
@@ -35,19 +35,20 @@ SDL_Renderer* Renderer::createWindow()
         printf("Could not load image %s", IMG_GetError());
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(mRenderer, surface);
     if (texture == NULL)
     {
         printf("Could not create texture %s", SDL_GetError());
     }
 
     SDL_FreeSurface(surface);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    SDL_RenderPresent(renderer);
+    SDL_RenderClear(mRenderer);
+    SDL_RenderCopy(mRenderer, texture, NULL, NULL);
+    SDL_RenderPresent(mRenderer);
 
-    return renderer;
+    return mRenderer;
 }
+
 
 
 SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)

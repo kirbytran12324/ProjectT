@@ -41,7 +41,6 @@ bool Board::IsGameOver()
 	{
 		if (mBoard[i][0] !=POS_FREE) return true;
 	}
-
 	return false;
 }
 
@@ -106,7 +105,6 @@ bool Board::IsPossibleMovement(int pX, int pY, int pPiece, int pRotation)
 				if (mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0)
 					return 0;
 			}
-
 			// Check the piece with prelaid blocks
 			if (j1 >= 0)
 			{

@@ -22,6 +22,7 @@ bool IO::WasKeyDown(SDL_Scancode key)
     return m_event.type == SDL_KEYDOWN && m_event.key.keysym.scancode == key;
 }
 
-bool IO::IsKeyDown(SDL_Scancode key) {
+bool IO::IsKeyDown(SDL_Scancode key) 
+{
     return m_keystates[key];
 }

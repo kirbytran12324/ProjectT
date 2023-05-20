@@ -22,6 +22,7 @@ public:
 private:
     Board* mBoard;
     Pieces* mPieces;
+    SDL_Renderer* mRenderer;
 };
 
 #endif /* WINDOW_H */
