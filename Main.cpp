@@ -27,8 +27,6 @@ int main()
 
     unsigned long mTime1 = SDL_GetTicks();
 
-    SDL_Renderer* renderer = mRenderer.createWindow();
-
     bool quit = false;
 
     unsigned long lastDropTime = SDL_GetTicks();
