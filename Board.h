@@ -33,7 +33,7 @@ public:
 private:
 
     enum { POS_FILLED, POS_FREE };
-    int mBoard[BOARD_WIDTH][BOARD_HEIGHT];  // Remove the assignment here
+    int mBoard[BOARD_WIDTH][BOARD_HEIGHT];
     Pieces* mPieces;
     Stats* mStats;
 
