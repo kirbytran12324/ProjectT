@@ -33,7 +33,6 @@ void Board::StorePiece(int pX, int pY, int pPiece, int pRotation)
 
 
 
-//Check if the game is over
 
 bool Board::IsGameOver()
 {
