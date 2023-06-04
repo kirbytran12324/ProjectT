@@ -9,7 +9,6 @@
 // ------ Defines -----
 
 #define BOARD_LINE_WIDTH 6
-#define BLOCK_SIZE 16
 #define BOARD_POSITION 320
 #define BOARD_WIDTH 10                // Board width in blocks
 #define BOARD_HEIGHT 20               // Board height in blocks
@@ -23,6 +22,7 @@ class Board
 public:
 
     Board(Pieces* pPieces);
+    static const int BLOCK_SIZE = 16;
     bool IsFreeBlock(int pX, int pY);
     bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
     void StorePiece(int pX, int pY, int pPiece, int pRotation);

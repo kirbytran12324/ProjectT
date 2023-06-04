@@ -21,8 +21,7 @@ int main()
 
     Renderer renderer(&mBoard, &mPieces);
 
-    SDL_Renderer * mRenderer= renderer.createWindow();
-
+    renderer.init("Tetris");
     long WAIT_TIME = 500;
 
     bool quit = false;
@@ -105,15 +104,8 @@ int main()
             lastDropTime = currentTime;
         }
 
-        SDL_RenderClear(mRenderer);
-        renderer.RenderBoard(mRenderer);
-        SDL_Point CurrentPos = { mGame.mPosX, mGame.mPosY };
-        renderer.RenderPiece(mRenderer, mGame.mPiece, mGame.mRotation, CurrentPos);
-        SDL_RenderPresent(mRenderer);
-    }
 
-    IMG_Quit();
-    TTF_Quit();
-    SDL_Quit();
+    }
+    renderer.clean();
     return 0;
 }

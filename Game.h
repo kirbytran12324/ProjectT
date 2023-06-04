@@ -21,13 +21,11 @@ public:
     int mPiece, mRotation;			// Kind and rotation the piece that is falling down
     int mBag[7];                        // Array to store the pieces in the bag
     int mBagIndex;                      // Index to keep track of the current position in the bag
+    int mNextPosX, mNextPosY;		// Position of the next piece
+    int mNextPiece, mNextRotation;	// Kind and rotation of the next piece
 
 private:
     int mScreenHeight;				// Screen height in pixels
-    int mNextPosX, mNextPosY;		// Position of the next piece
-    int mNextPiece, mNextRotation;	// Kind and rotation of the next piece
-    int mHoldPosX, mHoldPosY;		// Position of the held piece
-    int mHoldPiece, mHoldRotation;	// Kind and rotation of the held piece
     Board* mBoard;
     Pieces* mPieces;
     void FillRandomizedBag();           // Function to fill the bag with random pieces

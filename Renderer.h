@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Pieces.h"
 #include<SDL_ttf.h>
+#include "Game.h"
 
 constexpr auto ScreenWidth = 820;
 constexpr auto ScreenHeight = 935;
@@ -15,14 +16,21 @@ class Renderer
 {
 public:
     Renderer(Board* pBoard, Pieces* pPieces);
-    void RenderPiece(SDL_Renderer* renderer, int pPiece, int pRotation, const SDL_Point& pPosition);
-    SDL_Renderer* createWindow();
-    void RenderBoard(SDL_Renderer* renderer);
-    void DeleteLines(SDL_Renderer* renderer);
+    void logSDLError(const std::string& msg, bool fatal);
+    bool init(const char* WINDOW_TITLE);
+    void clean();
+    void updateRender();
 private:
     Board* mBoard;
     Pieces* mPieces;
-    SDL_Renderer* mRenderer;
+    Game* mGame;
+    SDL_Window* window = NULL;
+    SDL_Renderer* renderer = NULL;
+    SDL_Texture* menuTexture = NULL;
+    SDL_Texture* background = NULL;
+    SDL_Texture* over = NULL;
+    SDL_Texture* blocks_img = NULL;
+    SDL_Rect srcR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE }, desR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
 };
 
 #endif /* WINDOW_H */

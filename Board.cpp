@@ -15,7 +15,7 @@ void Board::InitBoard()
 {
 	for (int i = 0; i < BOARD_WIDTH; i++)
 		for (int j = 0; j < BOARD_HEIGHT; j++)
-			mBoard[i][j] = POS_FREE;
+			mBoard[i][j] = 0;
 }
 
 // Store the blocks in the board
@@ -38,7 +38,7 @@ bool Board::IsGameOver()
 {
 	for (int i = 0; i < BOARD_WIDTH; i++)
 	{
-		if (mBoard[i][0] !=POS_FREE) return true;
+		if (mBoard[i][0] !=0) return true;
 	}
 	return false;
 }
@@ -85,7 +85,7 @@ int Board::DeletePossibleLines()
 // Check if the block is already filled
 bool Board::IsFreeBlock(int pX, int pY)
 {
-	if (mBoard[pX][pY] == POS_FREE) return true; else return false;
+	if (mBoard[pX][pY] == 0) return true; else return false;
 }
 
 
