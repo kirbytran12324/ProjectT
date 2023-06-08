@@ -20,6 +20,7 @@ public:
     bool init(const char* WINDOW_TITLE);
     void clean();
     void updateRender();
+    static int boardOffsetX, boardOffsetY;
 private:
     Board* mBoard;
     Pieces* mPieces;
@@ -30,8 +31,10 @@ private:
     SDL_Texture* background = NULL;
     SDL_Texture* over = NULL;
     SDL_Texture* blocks_img = NULL;
-    SDL_Rect srcR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
-    SDL_Rect desR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
+    int pixelX = 0, pixelY = 0;
+
 };
+int Renderer::boardOffsetX = 0;
+int Renderer::boardOffsetY = 0;
 
 #endif /* WINDOW_H */

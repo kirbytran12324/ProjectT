@@ -56,11 +56,6 @@ SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)
     return texture;
 }
 
-void setRectPosition(SDL_Rect& rect, int x, int y, int w, int h) {
-    rect = { x, y, w, h };
-}
-
-
 void quitSDL(SDL_Window * window, SDL_Renderer * renderer)
  {
         SDL_DestroyRenderer(renderer);
@@ -68,58 +63,62 @@ void quitSDL(SDL_Window * window, SDL_Renderer * renderer)
         SDL_Quit();
  }
 
-void Renderer::updateRender() {
+void RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y)
+{
+    SDL_Rect dstRect = { x, y, 0, 0 };
+    SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
+    SDL_RenderCopy(renderer, texture, NULL, &dstRect);
+}
+
+int PixelcalcX(int x)
+{
+    return Renderer::boardOffsetX + (x * Board::BLOCK_SIZE);
+}
+
+int PixelCalcY(int y)
+{
+    return Renderer::boardOffsetY + (y * Board::BLOCK_SIZE);
+}
+
+void Renderer::updateRender()
+{
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            if (mBoard->GetBlock(i,j)!=0) {
+            if (mBoard->GetBlock(i, j) != 0) {
                 int blockType = mBoard->GetBlock(i, j);
 
                 std::string blockTexturePath = mPieces->GetBlockTexturePath(blockType);
                 SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-
-                setRectPosition(srcR, blockType * Board::BLOCK_SIZE);
-                setRectPosition(desR, j * Board::BLOCK_SIZE, i * Board::BLOCK_SIZE);
-
-                SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
-
-                SDL_DestroyTexture(blockTexture);
+                pixelX = PixelcalcX(i);
+                pixelY = PixelCalcY(j);
+                RenderTexture(renderer, blockTexture, pixelX, pixelY);
             }
         }
+
+        for (int i = 0; i < 4; i++) {
+            std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
+            SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+            pixelX = PixelcalcX(mGame->mNextPosX);
+            pixelY = PixelCalcY(mGame->mNextPosY);
+            RenderTexture(renderer, blockTexture, pixelX, pixelY);
+            SDL_DestroyTexture(blockTexture);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
+            SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+            pixelX = PixelcalcX(mGame->mPosX);
+            pixelY = PixelCalcY(mGame->mPosY);
+            RenderTexture(renderer, blockTexture, pixelX, pixelY);
+            SDL_DestroyTexture(blockTexture);
+        }
+        SDL_RenderPresent(renderer);
     }
-
-    for (int i = 0; i < 4; i++) {
-        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
-        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-
-        setRectPosition(srcR, mGame->mNextPiece * Board::BLOCK_SIZE);
-        setRectPosition(desR, mGame->mNextPosX * Board::BLOCK_SIZE, mGame->mNextPosY * Board::BLOCK_SIZE);
-
-        if (mGame->mNextPiece == 6 || mGame->mNextPiece == 3)
-            setRectPosition(desR, 460, 530);
-        else
-            setRectPosition(desR, 475, 530);
-
-        SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
-
-        SDL_DestroyTexture(blockTexture);
-    }
-
-    for (int i = 0; i < 4; i++) {
-        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
-        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-
-        setRectPosition(srcR, mGame->mPiece * Board::BLOCK_SIZE);
-        setRectPosition(desR, mGame->mPosX * Board::BLOCK_SIZE, mGame->mPosY * Board::BLOCK_SIZE);
-
-        SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
-
-        SDL_DestroyTexture(blockTexture);
-    }
-    SDL_RenderPresent(renderer);
 }
 
-void Renderer::clean() {
+void Renderer::clean() 
+{
     SDL_DestroyTexture(blocks_img);
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(menuTexture);
@@ -127,7 +126,6 @@ void Renderer::clean() {
     IMG_Quit();
     SDL_Quit();
     TTF_Quit();
-
 }
 
 
