@@ -30,7 +30,8 @@ private:
     SDL_Texture* background = NULL;
     SDL_Texture* over = NULL;
     SDL_Texture* blocks_img = NULL;
-    SDL_Rect srcR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE }, desR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
+    SDL_Rect srcR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
+    SDL_Rect desR = { 0, 0, Board::BLOCK_SIZE, Board::BLOCK_SIZE };
 };
 
 #endif /* WINDOW_H */

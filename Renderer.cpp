@@ -56,15 +56,8 @@ SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)
     return texture;
 }
 
-void setRectPosition(SDL_Rect& rect, int x, int y, int w, int h) 
-{
+void setRectPosition(SDL_Rect& rect, int x, int y, int w, int h) {
     rect = { x, y, w, h };
-}
-
-void moveRectPosition(SDL_Rect& rect, int x, int y) 
-{
-    rect.x += x;
-    rect.y += y;
 }
 
 
@@ -79,36 +72,51 @@ void Renderer::updateRender() {
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            if (mBoard[i][j]) {
-                int blockType = mBoard[i][j];
+            if (mBoard->GetBlock(i,j)!=0) {
+                int blockType = mBoard->GetBlock(i, j);
 
-                std::string blockTexturePath = mPieces ->GetBlockTexturePath(blockType);
-                SDL_Texture* blockTexture = LoadTexture(renderer,blockTexturePath);
+                std::string blockTexturePath = mPieces->GetBlockTexturePath(blockType);
+                SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
 
+                setRectPosition(srcR, blockType * Board::BLOCK_SIZE);
                 setRectPosition(desR, j * Board::BLOCK_SIZE, i * Board::BLOCK_SIZE);
 
-                SDL_RenderCopy(renderer, blockTexture, nullptr, &desR);
+                SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
 
                 SDL_DestroyTexture(blockTexture);
             }
         }
     }
-        for (int i = 0; i < 4; i++) {
-            setRectPosition(srcR, mGame->mNextPiece * Board::BLOCK_SIZE);
-            setRectPosition(desR, mGame->mNextPosX * Board::BLOCK_SIZE, mGame->mNextPosY * Board::BLOCK_SIZE);
-            std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
-            SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-            SDL_RenderCopy(renderer, blocks_img, &srcR, &desR);
-        }
-        for (int i = 0; i < 4; i++) {
-            setRectPosition(srcR, mGame ->mPiece * Board::BLOCK_SIZE);
-            setRectPosition(desR, mGame->mPosX * Board::BLOCK_SIZE, mGame->mPosY * Board::BLOCK_SIZE);
 
-            moveRectPosition(desR, 70, 50);
-            SDL_RenderCopy(renderer, blocks_img, &srcR, &desR);
-        }
+    for (int i = 0; i < 4; i++) {
+        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
+        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+
+        setRectPosition(srcR, mGame->mNextPiece * Board::BLOCK_SIZE);
+        setRectPosition(desR, mGame->mNextPosX * Board::BLOCK_SIZE, mGame->mNextPosY * Board::BLOCK_SIZE);
+
+        if (mGame->mNextPiece == 6 || mGame->mNextPiece == 3)
+            setRectPosition(desR, 460, 530);
+        else
+            setRectPosition(desR, 475, 530);
+
+        SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
+
+        SDL_DestroyTexture(blockTexture);
     }
-    
+
+    for (int i = 0; i < 4; i++) {
+        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
+        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+
+        setRectPosition(srcR, mGame->mPiece * Board::BLOCK_SIZE);
+        setRectPosition(desR, mGame->mPosX * Board::BLOCK_SIZE, mGame->mPosY * Board::BLOCK_SIZE);
+
+        SDL_RenderCopy(renderer, blockTexture, &srcR, &desR);
+
+        SDL_DestroyTexture(blockTexture);
+    }
+    SDL_RenderPresent(renderer);
 }
 
 void Renderer::clean() {

@@ -12,8 +12,6 @@
 #define BOARD_POSITION 320
 #define BOARD_WIDTH 10                // Board width in blocks
 #define BOARD_HEIGHT 20               // Board height in blocks
-#define MIN_VERTICAL_MARGIN 20
-#define MIN_HORIZONTAL_MARGIN 20
 #define PIECE_BLOCKS 5                // Number of horizontal and vertical blocks of a matrix piece
 
 
