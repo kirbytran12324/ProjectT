@@ -103,7 +103,7 @@ int main()
             }
             lastDropTime = currentTime;
         }
-
+        renderer.updateRender();
 
     }
     renderer.clean();

@@ -72,12 +72,12 @@ void RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y)
 
 int PixelcalcX(int x)
 {
-    return Renderer::boardOffsetX + (x * Board::BLOCK_SIZE);
+    return boardOffsetX + (x * Board::BLOCK_SIZE);
 }
 
 int PixelCalcY(int y)
 {
-    return Renderer::boardOffsetY + (y * Board::BLOCK_SIZE);
+    return boardOffsetY + (y * Board::BLOCK_SIZE);
 }
 
 void Renderer::updateRender()
