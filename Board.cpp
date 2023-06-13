@@ -21,12 +21,12 @@ void Board::InitBoard()
 // Store the blocks in the board
 void Board::StorePiece(int pX, int pY, int pPiece, int pRotation)
 {
-	for (int i1 = pX, i2 = 0; i1 < pX + PIECE_BLOCKS; i1++, i2++)
+	for (int i1 = pY, i2 = 0; i1 < pY + PIECE_BLOCKS; i1++, i2++)
 	{
-		for (int j1 = pY, j2 = 0; j1 < pY + PIECE_BLOCKS; j1++, j2++)
+		for (int j1 = pX, j2 = 0; j1 < pX + PIECE_BLOCKS; j1++, j2++)
 		{
 			if (mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0)
-				mBoard[i1][j1] = pPiece;
+				mBoard[j1][i1] = pPiece;
 		}
 	}
 }
@@ -92,23 +92,23 @@ bool Board::IsFreeBlock(int pX, int pY)
 bool Board::IsPossibleMovement(int pX, int pY, int pPiece, int pRotation)
 {
 	// Check the piece within the board
-	for (int i1 = pX, i2 = 0; i1 < pX + PIECE_BLOCKS; i1++, i2++)
+	for (int i1 = pY, i2 = 0; i1 < pY + PIECE_BLOCKS; i1++, i2++)
 	{
-		for (int j1 = pY, j2 = 0; j1 < pY + PIECE_BLOCKS; j1++, j2++)
+		for (int j1 = pX, j2 = 0; j1 < pX + PIECE_BLOCKS; j1++, j2++)
 		{
 			// Check if the piece is outside the limits of the board
-			if (i1 < 0 ||
-				i1 > BOARD_WIDTH - 1 ||
-				j1 > BOARD_HEIGHT - 1)
+			if (j1 < 0 ||
+				j1 > BOARD_WIDTH - 1 ||
+				i1 > BOARD_HEIGHT - 1)
 			{
 				if (mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0)
-					return 0;
+					return false;
 			}
 			// Check the piece with prelaid blocks
-			if (j1 >= 0)
+			if (i1 >= 0)
 			{
 				if ((mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0) &&
-					(!IsFreeBlock(i1, j1)))
+					(!IsFreeBlock(j1, i1)))
 					return false;
 			}
 		}

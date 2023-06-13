@@ -19,9 +19,9 @@ int main()
     Game mGame(&mBoard, &mPieces);
 
 
-    Renderer renderer(&mBoard, &mPieces);
+    Renderer renderer(&mBoard, &mPieces, &mGame);
 
-    renderer.init("Tetris");
+    renderer.initSDL("Tetris");
     long WAIT_TIME = 500;
 
     bool quit = false;

@@ -6,7 +6,7 @@
 #include <iostream>
 #include "Board.h"
 #include "Pieces.h"
-#include<SDL_ttf.h>
+#include <SDL_ttf.h>
 #include "Game.h"
 
 constexpr auto ScreenWidth = 820;
@@ -17,12 +17,12 @@ constexpr auto boardOffsetY = 0;
 class Renderer
 {
 public:
-    Renderer(Board* pBoard, Pieces* pPieces);
+    Renderer(Board* pBoard, Pieces* pPieces, Game* pGame);
     void logSDLError(const std::string& msg, bool fatal);
-    bool init(const char* WINDOW_TITLE);
+    void initSDL(const std::string& WINDOW_TITLE);
     void clean();
     void updateRender();
-    
+
 private:
     Board* mBoard;
     Pieces* mPieces;
@@ -33,8 +33,8 @@ private:
     SDL_Texture* background = NULL;
     SDL_Texture* over = NULL;
     SDL_Texture* blocks_img = NULL;
-    int pixelX = 0, pixelY = 0;
-
+    SDL_Surface* surface = NULL;
+    int pixelX = NULL, pixelY = NULL;
 };
 
 #endif /* WINDOW_H */

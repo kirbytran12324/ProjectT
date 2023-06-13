@@ -12,7 +12,7 @@ public:
 	int GetXInitialPosition(int pPiece, int pRotation);
 	int GetYInitialPosition(int pPiece, int pRotation);
 	std::string GetBlockTexturePath(int pPiece);
-	int GetBlock(int pPiece, int pRotation, int x, int y);
+	int GetBlock(int pPiece, int pRotation, int pX, int pY);
 };
 
 #endif // _PIECES_

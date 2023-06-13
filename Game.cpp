@@ -18,7 +18,7 @@ int Game::GetRand(int pA, int pB)
 
 void Game::FillRandomizedBag()
 {
-	for (int i = 0; i < 7; i++) {
+	for (int i = 1; i <= 7; i++) {
 		mBag[i] = i;
 	}
 
@@ -39,7 +39,7 @@ int Game::GetRandomPiece()
 		FillRandomizedBag();
 	}
 
-	assert(mBagIndex >= 0 && mBagIndex < 7);
+	assert(mBagIndex >= 0 && mBagIndex <= 6);
 
 	int piece = mBag[mBagIndex];
 	mBagIndex++;

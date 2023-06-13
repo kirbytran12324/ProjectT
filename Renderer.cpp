@@ -3,13 +3,14 @@
 using namespace std;
 
 
-Renderer::Renderer(Board* pBoard, Pieces* pPieces)
+Renderer::Renderer(Board* pBoard, Pieces* pPieces, Game* pGame)
 {
     mBoard = pBoard;
     mPieces = pPieces;
+    mGame = pGame;
 }
 
-void logSDLError(const std::string& msg, bool fatal)
+void Renderer::logSDLError(const std::string& msg, bool fatal)
 {
     std::cout << msg << " Error: " << SDL_GetError() << std::endl;
     if (fatal) {
@@ -18,19 +19,40 @@ void logSDLError(const std::string& msg, bool fatal)
     }
 }
 
+SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)
+{
+    IMG_Init(-1);
+    SDL_Surface* surface = IMG_Load(filePath.c_str());
+    if (!surface)
+    {
+        // Error occurred while loading the image
+        std::cout << "Failed to load image: " << IMG_GetError() << std::endl;
+        return nullptr; // Return nullptr to indicate failure
+    }
 
-void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT, const string& WINDOW_TITLE)
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
 
+    if (!texture)
+    {
+        // Error occurred while creating the texture
+        std::cout << "Failed to create texture: " << SDL_GetError() << std::endl;
+        return nullptr; // Return nullptr to indicate failure
+    }
+
+    return texture;
+}
+
+
+void Renderer::initSDL( const std::string& WINDOW_TITLE)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logSDLError("SDL_Init", true);
 
     window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        SDL_WINDOWPOS_CENTERED, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN);
 
     if (window == nullptr) logSDLError("CreateWindow", true);
-
-
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
         SDL_RENDERER_PRESENTVSYNC);
@@ -38,22 +60,15 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
     if (renderer == nullptr) logSDLError("CreateRenderer", true);
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderSetLogicalSize(renderer, ScreenWidth, ScreenHeight);
+    background = LoadTexture(renderer, "Data/Bg.png");
 }
 
-bool Renderer::init(const char* WINDOW_TITLE) 
+void RenderBackground(SDL_Renderer* renderer, SDL_Texture* background)
 {
-    initSDL(window, renderer, ScreenWidth, ScreenHeight, WINDOW_TITLE);
-    return true;
-}
-
-
-SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)
-{
-    SDL_Surface* surface = IMG_Load(filePath.c_str());
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-    return texture;
+    SDL_Rect dstRect = { 0, 0, ScreenWidth, ScreenHeight };
+    SDL_QueryTexture(background, NULL, NULL, &dstRect.w, &dstRect.h);
+    SDL_RenderCopy(renderer, background, NULL, &dstRect);
 }
 
 void quitSDL(SDL_Window * window, SDL_Renderer * renderer)
@@ -82,7 +97,7 @@ int PixelCalcY(int y)
 
 void Renderer::updateRender()
 {
-
+    RenderBackground(renderer, background);
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
             if (mBoard->GetBlock(i, j) != 0) {

@@ -2,8 +2,9 @@
 
 using namespace std;
 
-char mPieces[7 /*kind */][4 /* rotation */][5 /* horizontal blocks */][5 /* vertical blocks */] =
+char mPieces[8 /*kind -1 */][4 /* rotation */][5 /* horizontal blocks */][5 /* vertical blocks */] =
 {
+    {},
     // O
       {
        {
@@ -280,18 +281,6 @@ int mPiecesInitialPosition[7 /*kind */][4 /* rotation */][2 /* position */] =
        },
 };
 
-const vector<string> pieceAssets = 
-{
-    {},
-    {"Data/Pieces/O.png"},
-    {"Data/Pieces/I.png"},
-    {"Data/Pieces/L.png"},
-    {"Data/Pieces/J.png"},
-    {"Data/Pieces/Z.png"},
-    {"Data/Pieces/S.png"},
-    {"Data/Pieces/T.png"},
-};
-
 
 
 int Pieces::GetBlockType(int pPiece, int pRotation, int pX, int pY)
@@ -311,12 +300,49 @@ int Pieces::GetYInitialPosition(int pPiece, int pRotation)
 
 string Pieces::GetBlockTexturePath(int pPiece)
 {
-    return pieceAssets[pPiece];
+    switch (pPiece)
+    {
+    case 1:
+    {
+        if (pPiece == 1)
+            return "Data/Pieces/O.png";
+    }
+    case 2:
+    {
+        if (pPiece == 2)
+            return "Data/Pieces/I.png";
+    }
+    case 3:
+    {
+        if (pPiece == 3)
+            return "Data/Pieces/L.png";
+    }
+    case 4:
+    {
+        if (pPiece == 4)
+            return "Data/Pieces/J.png";
+    }
+    case 5:
+    {
+        if (pPiece == 5)
+            return "Data/Pieces/Z.png";
+    }
+    case 6:
+    {
+        if (pPiece == 6)
+            return "Data/Pieces/S.png";
+    }
+    case 7:
+    {
+        if (pPiece == 7)
+            return "Data/Pieces/T.png";
+    }
+    }
 }
 
-int Pieces::GetBlock(int pPiece, int pRotation, int x, int y)
+int Pieces::GetBlock(int pPiece, int pRotation, int pX, int pY)
 {
-    int index = mPieces[pPiece-1][pRotation][x][y];
-
+    int index = mPieces[pPiece][pRotation][pX][pY];
     return index;
 }
+
