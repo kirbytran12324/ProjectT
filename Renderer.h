@@ -11,8 +11,8 @@
 
 constexpr auto ScreenWidth = 820;
 constexpr auto ScreenHeight = 935;
-constexpr auto boardOffsetX = 0;
-constexpr auto boardOffsetY = 0;
+constexpr auto boardOffsetX = 130;
+constexpr auto boardOffsetY = 116;
 
 class Renderer
 {

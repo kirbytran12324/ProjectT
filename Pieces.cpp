@@ -303,42 +303,24 @@ string Pieces::GetBlockTexturePath(int pPiece)
     switch (pPiece)
     {
     case 1:
-    {
-        if (pPiece == 1)
-            return "Data/Pieces/O.png";
-    }
+        return "Data/Pieces/O.png";
     case 2:
-    {
-        if (pPiece == 2)
-            return "Data/Pieces/I.png";
-    }
+        return "Data/Pieces/I.png";
     case 3:
-    {
-        if (pPiece == 3)
-            return "Data/Pieces/L.png";
-    }
+        return "Data/Pieces/L.png";
     case 4:
-    {
-        if (pPiece == 4)
-            return "Data/Pieces/J.png";
-    }
+        return "Data/Pieces/J.png";
     case 5:
-    {
-        if (pPiece == 5)
-            return "Data/Pieces/Z.png";
-    }
+        return "Data/Pieces/Z.png";
     case 6:
-    {
-        if (pPiece == 6)
-            return "Data/Pieces/S.png";
-    }
+        return "Data/Pieces/S.png";
     case 7:
-    {
-        if (pPiece == 7)
-            return "Data/Pieces/T.png";
-    }
+        return "Data/Pieces/T.png";
+    default:
+        return ""; // Add a default case to handle unknown piece values
     }
 }
+
 
 int Pieces::GetBlock(int pPiece, int pRotation, int pX, int pY)
 {

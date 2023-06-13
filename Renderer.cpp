@@ -19,29 +19,23 @@ void Renderer::logSDLError(const std::string& msg, bool fatal)
     }
 }
 
+#include <SDL_image.h>
+
+// Load an image into an SDL_Texture
 SDL_Texture* LoadTexture(SDL_Renderer* renderer, const std::string& filePath)
 {
-    IMG_Init(-1);
     SDL_Surface* surface = IMG_Load(filePath.c_str());
-    if (!surface)
-    {
-        // Error occurred while loading the image
-        std::cout << "Failed to load image: " << IMG_GetError() << std::endl;
-        return nullptr; // Return nullptr to indicate failure
-    }
+    SDL_Texture* texture = nullptr;
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if (!texture)
+    if (surface)
     {
-        // Error occurred while creating the texture
-        std::cout << "Failed to create texture: " << SDL_GetError() << std::endl;
-        return nullptr; // Return nullptr to indicate failure
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
     }
 
     return texture;
 }
+
 
 
 void Renderer::initSDL( const std::string& WINDOW_TITLE)
@@ -80,8 +74,10 @@ void quitSDL(SDL_Window * window, SDL_Renderer * renderer)
 
 void RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y)
 {
-    SDL_Rect dstRect = { x, y, 0, 0 };
-    SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
+    int blockWidth=Board::BLOCK_SIZE, blockHeight=Board::BLOCK_SIZE;
+    int textureWidth, textureHeight;
+    SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
+    SDL_Rect dstRect = { x, y, blockWidth, blockHeight };
     SDL_RenderCopy(renderer, texture, NULL, &dstRect);
 }
 
@@ -111,23 +107,31 @@ void Renderer::updateRender()
             }
         }
 
-        for (int i = 0; i < 4; i++) {
-            std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
-            SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-            pixelX = PixelcalcX(mGame->mNextPosX);
-            pixelY = PixelCalcY(mGame->mNextPosY);
-            RenderTexture(renderer, blockTexture, pixelX, pixelY);
-            SDL_DestroyTexture(blockTexture);
+        for (int i = 0; i < PIECE_BLOCKS; i++) {
+            for (int j = 0; j < PIECE_BLOCKS; j++) {
+                // Render current piece
+                if (mPieces->GetBlockType(mGame->mPiece, mGame->mRotation, i, j) != 0) {
+                    std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
+                    SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+                    pixelX = PixelcalcX(mGame->mPosX + i);
+                    pixelY = PixelCalcY(mGame->mPosY + j);
+                    RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                    SDL_DestroyTexture(blockTexture);
+                }
+
+                // Render next piece
+                if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0) {
+                    std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
+                    SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+                    pixelX = PixelcalcX(mGame->mNextPosX + i);
+                    pixelY = PixelCalcY(mGame->mNextPosY + j);
+                    RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                    SDL_DestroyTexture(blockTexture);
+                }
+            }
         }
 
-        for (int i = 0; i < 4; i++) {
-            std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
-            SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-            pixelX = PixelcalcX(mGame->mPosX);
-            pixelY = PixelCalcY(mGame->mPosY);
-            RenderTexture(renderer, blockTexture, pixelX, pixelY);
-            SDL_DestroyTexture(blockTexture);
-        }
+
         SDL_RenderPresent(renderer);
     }
 }
