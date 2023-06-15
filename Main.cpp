@@ -9,7 +9,11 @@
 int main()
 {
     
-
+    long WAIT_TIME;
+    bool quit = false;
+    unsigned long lastDropTime = SDL_GetTicks();
+    unsigned long lastHeld = 0;
+    int HoldCooldown = 800;
     IO mIO;
 
     Pieces mPieces;
@@ -18,16 +22,13 @@ int main()
 
     Game mGame(&mBoard, &mPieces);
 
+    Stats mStats(WAIT_TIME);
+
 
     Renderer renderer(&mBoard, &mPieces, &mGame);
 
     renderer.initSDL("Tetris");
-    long WAIT_TIME = 500;
 
-    bool quit = false;
-    unsigned long lastDropTime = SDL_GetTicks();
-    unsigned long lastHeld = 0;
-    int HoldCooldown = 100;
 
 
     while (!quit)

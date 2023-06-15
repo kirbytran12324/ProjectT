@@ -1,33 +1,15 @@
 #include "Game.h"
 
-
 Game::Game(Board* pBoard, Pieces* pPieces)
 {
-
-	mBoard = pBoard;
-	mPieces = pPieces;
-
-	InitGame();
+    mBoard = pBoard;
+    mPieces = pPieces;
+    InitGame();
 }
-
 
 int Game::GetRand(int pA, int pB)
 {
     return rand() % (pB - pA + 1) + pA;
-}
-
-int Game::GetRandomPiece()
-{
-    if (mBagIndex == 7) {
-        FillRandomizedBag();
-    }
-
-    assert(mBagIndex >= 0 && mBagIndex < 7);
-
-    int piece = mBag[mBagIndex];
-    mBagIndex++;
-
-    return piece;
 }
 
 void Game::FillRandomizedBag()
@@ -48,31 +30,42 @@ void Game::FillRandomizedBag()
     mBagIndex = 0;
 }
 
+int Game::GetRandomPiece()
+{
+    if (mBagIndex >= 7) {
+        FillRandomizedBag();
+    }
 
+    assert(mBagIndex >= 0 && mBagIndex < 7);
 
+    int piece = mBag[mBagIndex];
+    mBagIndex++;
+
+    return piece;
+}
 
 
 void Game::CreateNewPiece()
 {
-	mPiece = GetRandomPiece();
-	mRotation = 0;
-	mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation);
-	mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
+    mPiece = mNextPiece;
+    mRotation = 0;
+    mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation);
+    mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
 
-	mNextPiece = GetRandomPiece();
-	mNextRotation = 0;
+    mNextPiece = GetRandomPiece();
+    mNextRotation = 0;
 }
 
 void Game::InitGame()
 {
-	srand((unsigned int)time(NULL));
+    srand((unsigned int)time(NULL));
+    FillRandomizedBag();
 
-	FillRandomizedBag();
+    mPiece = GetRandomPiece();
+    mRotation = 0;
+    mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation);
+    mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
 
-	mPiece = GetRandomPiece();
-	mRotation = 0;
-	mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation);
-	mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
-	mNextPiece = GetRandomPiece();
-	mNextRotation = 0;
+    mNextPiece = GetRandomPiece();
+    mNextRotation = 0;
 }

@@ -1,10 +1,11 @@
 #include "Stats.h"
 
-Stats::Stats()
+Stats::Stats(long& WaitTime):mWaitTime(WaitTime)
 {
     Stats::mScore = 0;
     Stats::mLinesCleared = 0;
     Stats::mTetrises = 0;
+    Stats::mLevel = 1;
 }
 
 void Stats::AddScore(int Lines)
@@ -36,4 +37,28 @@ void Stats::UpdateTetrises(int Lines)
 {
     if (Lines==4)
         mTetrises++;
+}
+
+void Stats::UpdateLevel() 
+{
+    if (mScore < 2000) 
+    {
+        mLevel = 1;
+        mWaitTime = 600;
+    }
+    else if (mScore < 4000) 
+    {
+        mLevel = 2;
+        mWaitTime = 500;
+    }
+    else if (mScore < 8000)
+    {
+        mLevel = 3;
+        mWaitTime = 400;
+    }
+    else 
+    {
+        mLevel = 4;
+        mWaitTime = 350;
+    }
 }

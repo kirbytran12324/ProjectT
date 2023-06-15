@@ -24,7 +24,7 @@ public:
     bool IsFreeBlock(int pX, int pY);
     bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
     void StorePiece(int pX, int pY, int pPiece, int pRotation);
-    int DeletePossibleLines();
+    void DeletePossibleLines();
     bool IsGameOver();
     int GetBlock(int pX, int pY);
 
@@ -33,7 +33,7 @@ private:
     enum { POS_FILLED, POS_FREE };
     int mBoard[BOARD_WIDTH][BOARD_HEIGHT];
     Pieces* mPieces;
-    Stats* mStats;
+    Stats mStats;
 
     void InitBoard();
     void DeleteLine(int pY);

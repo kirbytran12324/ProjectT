@@ -81,7 +81,7 @@ void RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y)
     SDL_RenderCopy(renderer, texture, NULL, &dstRect);
 }
 
-int PixelcalcX(int x)
+int PixelCalcX(int x)
 {
     return boardOffsetX + (x * Board::BLOCK_SIZE);
 }
@@ -96,34 +96,25 @@ void Renderer::updateRender()
     RenderBackground(renderer, background);
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            if (mBoard->GetBlock(i, j) != 0) {
-                int blockType = mBoard->GetBlock(i, j);
-
+            int blockType = mBoard->GetBlock(j, i);
+            if (blockType != 0) {
                 std::string blockTexturePath = mPieces->GetBlockTexturePath(blockType);
                 SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-
-                // Calculate the pixel coordinates within the game board area
-                int pixelX = boardOffsetX + (j * Board::BLOCK_SIZE);
-                int pixelY = boardOffsetY + ((BOARD_HEIGHT - i - 1) * Board::BLOCK_SIZE);
-
-                // Check if the block is within the visible area
-                if (pixelX >= boardOffsetX && pixelX + Board::BLOCK_SIZE <= boardOffsetX + boardW &&
-                    pixelY >= boardOffsetY && pixelY + Board::BLOCK_SIZE <= boardOffsetY + boardH) {
-                    RenderTexture(renderer, blockTexture, pixelX, pixelY);
-                }
-
-                SDL_DestroyTexture(blockTexture); // Free the texture memory
+                int pixelX = PixelCalcX(j);
+                int pixelY = PixelCalcY(i);
+                RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                SDL_DestroyTexture(blockTexture);
             }
         }
     }
 
+    // Render current piece
     for (int i = 0; i < PIECE_BLOCKS; i++) {
         for (int j = 0; j < PIECE_BLOCKS; j++) {
-            // Render current piece
             if (mPieces->GetBlockType(mGame->mPiece, mGame->mRotation, i, j) != 0) {
                 std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
                 SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-                int pixelX = PixelcalcX(mGame->mPosX + i);
+                int pixelX = PixelCalcX(mGame->mPosX + i);
                 int pixelY = PixelCalcY(mGame->mPosY + j);
 
                 // Check if the block is within the visible area
@@ -134,26 +125,26 @@ void Renderer::updateRender()
 
                 SDL_DestroyTexture(blockTexture); // Free the texture memory
             }
+        }
+    }
 
-            // Render next piece
-            for (int i = 0; i < PIECE_BLOCKS; i++)
-            {
-                for (int j = 0; j < PIECE_BLOCKS; j++)
-                {
-                    if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0)
-                    {
-                        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
-                        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-                        int pixelX = NextX + (j * Board::BLOCK_SIZE);
-                        int pixelY = NextY + (i * Board::BLOCK_SIZE);
-                        RenderTexture(renderer, blockTexture, pixelX, pixelY);
-                    }
-                }
+    // Render next piece
+    for (int i = 0; i < PIECE_BLOCKS; i++) {
+        for (int j = 0; j < PIECE_BLOCKS; j++) {
+            if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0) {
+                std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
+                SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+                int pixelX = NextX + (j * Board::BLOCK_SIZE);
+                int pixelY = NextY + (i * Board::BLOCK_SIZE);
+                RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                SDL_DestroyTexture(blockTexture); // Free the texture memory
             }
         }
     }
+
     SDL_RenderPresent(renderer);
 }
+
 
 
 

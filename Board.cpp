@@ -55,12 +55,18 @@ void Board::DeleteLine(int pY)
 			mBoard[i][j] = mBoard[i][j - 1];
 		}
 	}
+
+	// Clear the topmost row
+	for (int i = 0; i < BOARD_WIDTH; i++)
+	{
+		mBoard[i][0] = 0;
+	}
 }
 
 
 //Delete all the lines that are filled
 
-int Board::DeletePossibleLines()
+void Board::DeletePossibleLines()
 {
 	int ClearedLines = 0;
 	for (int j = 0; j < BOARD_HEIGHT; j++)
@@ -68,7 +74,7 @@ int Board::DeletePossibleLines()
 		int i = 0;
 		while (i < BOARD_WIDTH)
 		{
-			if (mBoard[i][j] ==0) break;
+			if (mBoard[i][j] == 0) break;
 			i++;
 		}
 
@@ -78,8 +84,20 @@ int Board::DeletePossibleLines()
 			ClearedLines++;
 		}
 	}
-	return ClearedLines;
+
+	// Update statistics based on cleared lines
+	if (ClearedLines > 0)
+	{
+		mStats.UpdateLineClears(ClearedLines);
+
+		if (ClearedLines == 4)
+			mStats.UpdateTetrises(ClearedLines);
+
+		mStats.AddScore(ClearedLines);
+		mStats.UpdateLevel();
+	}
 }
+
 
 
 // Check if the block is already filled
