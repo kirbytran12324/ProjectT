@@ -2,10 +2,6 @@
 
 Stats::Stats(long& WaitTime):mWaitTime(WaitTime)
 {
-    Stats::mScore = 0;
-    Stats::mLinesCleared = 0;
-    Stats::mTetrises = 0;
-    Stats::mLevel = 1;
 }
 
 void Stats::AddScore(int Lines)
