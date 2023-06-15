@@ -1,12 +1,8 @@
 #include "Board.h"
 
-
 Board::Board(Pieces* pPieces)
 {
-
 	mPieces = pPieces;
-
-
 	InitBoard();
 }
 
@@ -31,19 +27,14 @@ void Board::StorePiece(int pX, int pY, int pPiece, int pRotation)
 	}
 }
 
-
-
-
 bool Board::IsGameOver()
 {
 	for (int i = 0; i < BOARD_WIDTH; i++)
 	{
-		if (mBoard[i][0] !=0) return true;
+		if (mBoard[i][0] != 0) return true;
 	}
 	return false;
 }
-
-
 
 void Board::DeleteLine(int pY)
 {
@@ -62,7 +53,6 @@ void Board::DeleteLine(int pY)
 		mBoard[i][0] = 0;
 	}
 }
-
 
 //Delete all the lines that are filled
 
@@ -98,14 +88,11 @@ void Board::DeletePossibleLines()
 	}
 }
 
-
-
 // Check if the block is already filled
 bool Board::IsFreeBlock(int pX, int pY)
 {
 	if (mBoard[pX][pY] == 0) return true; else return false;
 }
-
 
 bool Board::IsPossibleMovement(int pX, int pY, int pPiece, int pRotation)
 {
@@ -134,8 +121,6 @@ bool Board::IsPossibleMovement(int pX, int pY, int pPiece, int pRotation)
 
 	return true;
 }
-
-
 
 int Board::GetBlock(int pX, int pY)
 {

@@ -5,16 +5,16 @@
 
 class IO {
 public:
-    IO();
-    ~IO();
+	IO();
+	~IO();
 
-    bool PollEvent();
-    bool WasKeyDown(SDL_Scancode key);
-    bool IsKeyDown(SDL_Scancode key);
+	bool PollEvent();
+	bool WasKeyDown(SDL_Scancode key);
+	bool IsKeyDown(SDL_Scancode key);
 
 private:
-    const Uint8* m_keystates;
-    SDL_Event m_event;
+	const Uint8* m_keystates;
+	SDL_Event m_event;
 };
 
 #endif

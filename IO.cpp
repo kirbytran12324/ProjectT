@@ -1,29 +1,28 @@
 #include "IO.h"
 
 bool mIsKeyDown = false;
-IO::IO()  : 
-    m_event(SDL_Event{})
+IO::IO() :
+	m_event(SDL_Event{})
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
-    m_keystates = SDL_GetKeyboardState(NULL);
+	SDL_Init(SDL_INIT_EVERYTHING);
+	m_keystates = SDL_GetKeyboardState(NULL);
 }
 
 IO::~IO() {
-    SDL_Quit();
+	SDL_Quit();
 }
 
-bool IO::PollEvent() 
+bool IO::PollEvent()
 {
-    return SDL_PollEvent(&m_event) != 0;
+	return SDL_PollEvent(&m_event) != 0;
 }
 
-bool IO::WasKeyDown(SDL_Scancode key) 
+bool IO::WasKeyDown(SDL_Scancode key)
 {
-    return m_event.type == SDL_KEYDOWN && m_event.key.keysym.scancode == key;
+	return m_event.type == SDL_KEYDOWN && m_event.key.keysym.scancode == key;
 }
 
-bool IO::IsKeyDown(SDL_Scancode key) 
+bool IO::IsKeyDown(SDL_Scancode key)
 {
-    return m_keystates[key];
+	return m_keystates[key];
 }
-
