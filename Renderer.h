@@ -13,6 +13,8 @@ constexpr auto ScreenWidth = 820;
 constexpr auto ScreenHeight = 935;
 constexpr auto boardOffsetX = 130;
 constexpr auto boardOffsetY = 116;
+constexpr auto boardW = 374;
+constexpr auto boardH = 740;
 
 class Renderer
 {
@@ -35,6 +37,7 @@ private:
     SDL_Texture* blocks_img = NULL;
     SDL_Surface* surface = NULL;
     int pixelX = NULL, pixelY = NULL;
+    int NextX = 585, NextY = 110;
 };
 
 #endif /* WINDOW_H */

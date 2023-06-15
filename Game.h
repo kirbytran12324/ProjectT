@@ -21,7 +21,6 @@ public:
     int mPiece, mRotation;			// Kind and rotation the piece that is falling down
     int mBag[7];                        // Array to store the pieces in the bag
     int mBagIndex;                      // Index to keep track of the current position in the bag
-    int mNextPosX, mNextPosY;		// Position of the next piece
     int mNextPiece, mNextRotation;	// Kind and rotation of the next piece
 
 private:

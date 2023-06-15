@@ -25,8 +25,9 @@ int main()
     long WAIT_TIME = 500;
 
     bool quit = false;
-
     unsigned long lastDropTime = SDL_GetTicks();
+    unsigned long lastHeld = 0;
+    int HoldCooldown = 100;
 
 
     while (!quit)
@@ -63,22 +64,25 @@ int main()
                 mGame.CreateNewPiece();
             }
         }
-        if (mIO.IsKeyDown(SDL_SCANCODE_ESCAPE))
+        if (mIO.IsKeyDown(SDL_SCANCODE_ESCAPE) && SDL_GetTicks() - lastHeld >= HoldCooldown)
         {
             quit = true;
         }
-        else if (mIO.IsKeyDown(SDL_SCANCODE_LEFT))
+        else if (mIO.IsKeyDown(SDL_SCANCODE_LEFT)  && SDL_GetTicks() - lastHeld >= HoldCooldown)
         {
+            lastHeld = SDL_GetTicks();
             if (mBoard.IsPossibleMovement(mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
                 mGame.mPosX--;
         }
-        else if (mIO.IsKeyDown(SDL_SCANCODE_RIGHT))
+        else if (mIO.IsKeyDown(SDL_SCANCODE_RIGHT) && SDL_GetTicks() - lastHeld >= HoldCooldown)
         {
+            lastHeld = SDL_GetTicks();
             if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
                 mGame.mPosX++;
         }
-        else if (mIO.IsKeyDown(SDL_SCANCODE_DOWN))
+        else if (mIO.IsKeyDown(SDL_SCANCODE_DOWN) && SDL_GetTicks() - lastHeld >= HoldCooldown)
         {
+            lastHeld = SDL_GetTicks();
             if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
                 mGame.mPosY++;
         }

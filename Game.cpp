@@ -13,39 +13,42 @@ Game::Game(Board* pBoard, Pieces* pPieces)
 
 int Game::GetRand(int pA, int pB)
 {
-	return rand() % (pB - pA + 1) + pA;
+    return rand() % (pB - pA + 1) + pA;
+}
+
+int Game::GetRandomPiece()
+{
+    if (mBagIndex == 7) {
+        FillRandomizedBag();
+    }
+
+    assert(mBagIndex >= 0 && mBagIndex < 7);
+
+    int piece = mBag[mBagIndex];
+    mBagIndex++;
+
+    return piece;
 }
 
 void Game::FillRandomizedBag()
 {
-	for (int i = 1; i <= 7; i++) {
-		mBag[i] = i;
-	}
+    // Fill the bag with all pieces initially
+    for (int i = 0; i < 7; i++) {
+        mBag[i] = i + 1;
+    }
 
-	for (int i = 0; i < 7; i++) {
-		int randIndex = GetRand(i, 6);
-		int temp = mBag[i];
-		mBag[i] = mBag[randIndex];
-		mBag[randIndex] = temp;
-	}
+    // Shuffle the bag using Fisher-Yates algorithm
+    for (int i = 6; i >= 1; i--) {
+        int randIndex = GetRand(0, i);
+        int temp = mBag[i];
+        mBag[i] = mBag[randIndex];
+        mBag[randIndex] = temp;
+    }
 
-	mBagIndex = 0;
+    mBagIndex = 0;
 }
 
 
-int Game::GetRandomPiece()
-{
-	if (mBagIndex == 7) {
-		FillRandomizedBag();
-	}
-
-	assert(mBagIndex >= 0 && mBagIndex <= 6);
-
-	int piece = mBag[mBagIndex];
-	mBagIndex++;
-
-	return piece;
-}
 
 
 
@@ -72,6 +75,4 @@ void Game::InitGame()
 	mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
 	mNextPiece = GetRandomPiece();
 	mNextRotation = 0;
-	mNextPosX = BOARD_WIDTH + 5;
-	mNextPosY = 5;
 }

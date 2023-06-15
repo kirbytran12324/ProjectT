@@ -26,3 +26,4 @@ bool IO::IsKeyDown(SDL_Scancode key)
 {
     return m_keystates[key];
 }
+

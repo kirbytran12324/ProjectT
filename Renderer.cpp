@@ -101,40 +101,61 @@ void Renderer::updateRender()
 
                 std::string blockTexturePath = mPieces->GetBlockTexturePath(blockType);
                 SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-                pixelX = PixelcalcX(i);
-                pixelY = PixelCalcY(j);
-                RenderTexture(renderer, blockTexture, pixelX, pixelY);
-            }
-        }
 
-        for (int i = 0; i < PIECE_BLOCKS; i++) {
-            for (int j = 0; j < PIECE_BLOCKS; j++) {
-                // Render current piece
-                if (mPieces->GetBlockType(mGame->mPiece, mGame->mRotation, i, j) != 0) {
-                    std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
-                    SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-                    pixelX = PixelcalcX(mGame->mPosX + i);
-                    pixelY = PixelCalcY(mGame->mPosY + j);
+                // Calculate the pixel coordinates within the game board area
+                int pixelX = boardOffsetX + (j * Board::BLOCK_SIZE);
+                int pixelY = boardOffsetY + ((BOARD_HEIGHT - i - 1) * Board::BLOCK_SIZE);
+
+                // Check if the block is within the visible area
+                if (pixelX >= boardOffsetX && pixelX + Board::BLOCK_SIZE <= boardOffsetX + boardW &&
+                    pixelY >= boardOffsetY && pixelY + Board::BLOCK_SIZE <= boardOffsetY + boardH) {
                     RenderTexture(renderer, blockTexture, pixelX, pixelY);
-                    SDL_DestroyTexture(blockTexture);
                 }
 
-                // Render next piece
-                if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0) {
-                    std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
-                    SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-                    pixelX = PixelcalcX(mGame->mNextPosX + i);
-                    pixelY = PixelCalcY(mGame->mNextPosY + j);
-                    RenderTexture(renderer, blockTexture, pixelX, pixelY);
-                    SDL_DestroyTexture(blockTexture);
-                }
+                SDL_DestroyTexture(blockTexture); // Free the texture memory
             }
         }
-
-
-        SDL_RenderPresent(renderer);
     }
+
+    for (int i = 0; i < PIECE_BLOCKS; i++) {
+        for (int j = 0; j < PIECE_BLOCKS; j++) {
+            // Render current piece
+            if (mPieces->GetBlockType(mGame->mPiece, mGame->mRotation, i, j) != 0) {
+                std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mPiece);
+                SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+                int pixelX = PixelcalcX(mGame->mPosX + i);
+                int pixelY = PixelCalcY(mGame->mPosY + j);
+
+                // Check if the block is within the visible area
+                if (pixelX >= boardOffsetX && pixelX + Board::BLOCK_SIZE <= boardOffsetX + boardW &&
+                    pixelY >= boardOffsetY && pixelY + Board::BLOCK_SIZE <= boardOffsetY + boardH) {
+                    RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                }
+
+                SDL_DestroyTexture(blockTexture); // Free the texture memory
+            }
+
+            // Render next piece
+            for (int i = 0; i < PIECE_BLOCKS; i++)
+            {
+                for (int j = 0; j < PIECE_BLOCKS; j++)
+                {
+                    if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0)
+                    {
+                        std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
+                        SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
+                        int pixelX = NextX + (j * Board::BLOCK_SIZE);
+                        int pixelY = NextY + (i * Board::BLOCK_SIZE);
+                        RenderTexture(renderer, blockTexture, pixelX, pixelY);
+                    }
+                }
+            }
+        }
+    }
+    SDL_RenderPresent(renderer);
 }
+
+
 
 void Renderer::clean() 
 {

@@ -20,7 +20,7 @@ class Board
 public:
 
     Board(Pieces* pPieces);
-    static const int BLOCK_SIZE = 42;
+    static const int BLOCK_SIZE = 37;
     bool IsFreeBlock(int pX, int pY);
     bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
     void StorePiece(int pX, int pY, int pPiece, int pRotation);
