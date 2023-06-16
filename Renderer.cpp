@@ -176,11 +176,12 @@ void Renderer::updateRender()
 	// Render next piece
 	for (int i = 0; i < PIECE_BLOCKS; i++) {
 		for (int j = 0; j < PIECE_BLOCKS; j++) {
-			if (mPieces->GetBlockType(mGame->mNextPiece, 0, i, j) != 0) {
+			if (mPieces->GetBlockType(mGame->mNextPiece, 1, i, j) != 0) 
+			{
 				std::string blockTexturePath = mPieces->GetBlockTexturePath(mGame->mNextPiece);
 				SDL_Texture* blockTexture = LoadTexture(renderer, blockTexturePath);
-				int pixelX = NextX + (j * Board::BLOCK_SIZE);
-				int pixelY = NextY + (i * Board::BLOCK_SIZE);
+				int pixelX = NextX + (i * Board::BLOCK_SIZE);
+				int pixelY = NextY + (j * Board::BLOCK_SIZE);
 				RenderTexture(renderer, blockTexture, pixelX, pixelY);
 				SDL_DestroyTexture(blockTexture); // Free the texture memory
 			}

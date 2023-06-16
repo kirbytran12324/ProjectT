@@ -17,11 +17,13 @@ int main()
 
 	Pieces mPieces;
 
-	Board mBoard(&mPieces);
+	Stats mStats(WAIT_TIME);
+
+	Board mBoard(&mPieces, &mStats);
 
 	Game mGame(&mBoard, &mPieces);
 
-	Stats mStats(WAIT_TIME);
+
 
 	Renderer renderer(&mBoard, &mPieces, &mGame, &mStats);
 

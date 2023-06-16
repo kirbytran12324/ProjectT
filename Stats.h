@@ -12,7 +12,7 @@ public:
 	Stats(int WaitTime);
 	void AddScore(int Lines);
 	void UpdateLineClears(int Lines);
-	void UpdateTetrises(int Lines);
+	void UpdateTetrises();
 	void UpdateLevel();
 	int GetScore();
 	int GetLinesCleared();

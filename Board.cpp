@@ -1,8 +1,9 @@
 #include "Board.h"
 
-Board::Board(Pieces* pPieces)
+Board::Board(Pieces* pPieces, Stats* pStats)
 {
 	mPieces = pPieces;
+	mStats = pStats;
 	InitBoard();
 }
 
@@ -78,13 +79,13 @@ void Board::DeletePossibleLines()
 	// Update statistics based on cleared lines
 	if (ClearedLines > 0)
 	{
-		mStats.UpdateLineClears(ClearedLines);
+		mStats->UpdateLineClears(ClearedLines);
 
 		if (ClearedLines == 4)
-			mStats.UpdateTetrises(ClearedLines);
+			mStats->UpdateTetrises();
 
-		mStats.AddScore(ClearedLines);
-		mStats.UpdateLevel();
+		mStats->AddScore(ClearedLines);
+		mStats->UpdateLevel();
 	}
 }
 

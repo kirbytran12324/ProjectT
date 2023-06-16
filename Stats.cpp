@@ -22,7 +22,6 @@ void Stats::AddScore(int Lines)
 		break;
 	case 4:
 		mScore += 1200;
-		mTetrises++;
 		break;
 	default:
 		break;
@@ -34,10 +33,9 @@ void Stats::UpdateLineClears(int Lines)
 	mLinesCleared += Lines;
 }
 
-void Stats::UpdateTetrises(int Lines)
+void Stats::UpdateTetrises()
 {
-	if (Lines == 4)
-		mTetrises++;
+	mTetrises++;
 }
 
 void Stats::UpdateLevel()

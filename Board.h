@@ -16,7 +16,7 @@ class Board
 {
 public:
 
-	Board(Pieces* pPieces);
+	Board(Pieces* pPieces, Stats* pStats);
 	static const int BLOCK_SIZE = 37;
 	bool IsFreeBlock(int pX, int pY);
 	bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
@@ -31,7 +31,7 @@ private:
 	enum { POS_FILLED, POS_FREE };
 	int mBoard[BOARD_WIDTH][BOARD_HEIGHT];
 	Pieces* mPieces;
-	Stats mStats= Stats(500);
+	Stats* mStats;
 	void InitBoard();
 	void DeleteLine(int pY);
 };
